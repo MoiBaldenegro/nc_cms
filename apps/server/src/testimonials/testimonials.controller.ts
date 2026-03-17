@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   Body,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TestimonialsService } from './testimonials.service';
@@ -59,7 +60,19 @@ export class TestimonialsController {
   }
 
   @Get('/public')
-  getPublic() {
-    return this.service.findApproved();
+  getPublic(@Query('limit') limit = 5) {
+    return this.service.findApproved(limit);
+  }
+
+  @UseGuards(SupabaseAuthGuard)
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body: any) {
+    return this.service.update(id, body);
+  }
+
+  @UseGuards(SupabaseAuthGuard)
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.service.remove(id);
   }
 }

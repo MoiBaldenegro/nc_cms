@@ -11,13 +11,13 @@ export class TestimonialsService {
     private repo: Repository<Testimonial>,
   ) {}
 
-  create(data: any) {
+  async create(data: any) {
     const testimonial = this.repo.create({
       ...data,
       status: 'pending',
     });
 
-    return this.repo.save(testimonial);
+    return await this.repo.save(testimonial);
   }
 
   async findAll(search?: string) {
@@ -33,11 +33,24 @@ export class TestimonialsService {
       .getMany();
   }
 
-  approve(id: string) {
-    return this.repo.update(id, { status: 'approved' });
+  async approve(id: string) {
+    return await this.repo.update(id, { status: 'approved' });
   }
 
-  findApproved() {
-    return this.repo.find({ where: { status: 'approved' } });
+  async findApproved(limit: number) {
+    return await this.repo.find({
+      where: { status: 'approved' },
+      take: limit,
+      order: { id: 'DESC' },
+    });
+  }
+
+  async update(id: string, data: any) {
+    await this.repo.update(id, data);
+    return await this.repo.findOneBy({ id });
+  }
+
+  async remove(id: string) {
+    return await this.repo.delete(id);
   }
 }

@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import './App.css'
 import CreateTestimonial from './pages/CreateTestimonial';
+import EditTestimonial from './pages/EditTestimonial';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     <Route path="/" element={<Login />} />
     <Route path="/dashboard" element={<Dashboard />} />
     <Route path="/create" element={<CreateTestimonial />} />
+    <Route path="/edit/:id" element={<EditTestimonial />} />
   </Routes>
 </BrowserRouter>
      
@@ -19,4 +21,4 @@ function App() {
 }
 
 export default App
-  
+    
